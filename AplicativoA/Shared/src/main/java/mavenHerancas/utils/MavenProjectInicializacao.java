@@ -1,6 +1,10 @@
 package mavenHerancas.utils;
 
-
+/**
+ * Classe utilizada para cirar lista de propriedades para os build do manve sem a interferencia da herança do mesmo.
+ * Veja o revision: 5597133657b4a7f3edc7f0ed43c1afe17bcbd03c na linha 60 do AplicativoA/pom.xml com a utilização dessa classe.
+ * Essa ideia foi substituida pela utilziação do groovy-maven-plugin por ter uma melhor manutenibilidade
+ */
 public class MavenProjectInicializacao {
     public static void main(String[] args) {
         if(args == null){

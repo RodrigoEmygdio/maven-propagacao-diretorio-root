@@ -58,19 +58,6 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    <!--                    <execution>-->
-                    <!--                        <phase>initialize</phase>-->
-                    <!--                        <goals>-->
-                    <!--                            <goal>java</goal>-->
-                    <!--                        </goals>-->
-                    <!--                        <configuration>-->
-                    <!--                            <includePluginDependencies>true</includePluginDependencies>-->
-                    <!--                            <mainClass>mavenHerancas.utils.MavenProjectInicializacao</mainClass>-->
-                    <!--                            <arguments>-->
-                    <!--                                <argument>root.projeto;${basedir}</argument>-->
-                    <!--                            </arguments>-->
-                    <!--                        </configuration>-->
-                    <!--                    </execution>-->
                 </executions>
                 <dependencies>
                     <dependency>
