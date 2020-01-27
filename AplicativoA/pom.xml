@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>MavenHerancas</artifactId>
+        <groupId>org.example.emygdio</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <projeto.home/>
+        <teste></teste>
+    </properties>
+
+    <artifactId>AplicativoA</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>Shared</module>
+        <module>Funcionalidades</module>
+    </modules>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>8</source>
+                        <target>8</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>tarefa-de-compilacao</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <includePluginDependencies>true</includePluginDependencies>
+                            <mainClass>mavenHerancas.utils.VisualizaVariaveis</mainClass>
+
+                            <arguments>
+                                <argument>Aplicativo.root</argument>
+                                <argument>${project.name}</argument>
+                                <argument>${teste}</argument>
+                                <argument>${projeto.home}</argument>
+                                <!-- Esse valor varia de acorodo com cada modulo que executa esse plugin. Oberserve a saida do terminal -->
+                                <argument>${basedir}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <!--                    <execution>-->
+                    <!--                        <phase>initialize</phase>-->
+                    <!--                        <goals>-->
+                    <!--                            <goal>java</goal>-->
+                    <!--                        </goals>-->
+                    <!--                        <configuration>-->
+                    <!--                            <includePluginDependencies>true</includePluginDependencies>-->
+                    <!--                            <mainClass>mavenHerancas.utils.MavenProjectInicializacao</mainClass>-->
+                    <!--                            <arguments>-->
+                    <!--                                <argument>root.projeto;${basedir}</argument>-->
+                    <!--                            </arguments>-->
+                    <!--                        </configuration>-->
+                    <!--                    </execution>-->
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.example.emygdio</groupId>
+                        <artifactId>Shared</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <version>2.1.1</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                log.info("Inicalizando ambiente:")
+                                log.info("valor do projeto.home: ${project.properties.getProperty("projeto.home")}")
+                                // Tentando alterar o valor da propriedade do maven, mas sem sucesso :-(
+                                project.properties["projeto.home"] = project.basedir.getCanonicalPath()
+                                log.info((String) project.properties['teste'])
+                                project.properties["teste"] = "outro valor"
+                                log.info((String) project.properties['teste'])
+                                log.info("valor do projeot.home: ${project.properties.getProperty("projeto.home")}")
+                                /*  A unica forma que encontrei de manter o root de algum projeto para que outros modulos tenha acesso a esse
+                                    de qualquer fase do maven foi adicionando uma propriedade usando groovy-maven-plugin na inicialização do projeto,
+                                    que irá só executar uma única vez; dessa forma não terá como o build de outro submodulo sobrecrever.
+                                 */
+                                System.setProperty("Aplicativo.root", project.basedir.getCanonicalPath());
+                            </source>
+                            <properties>
+
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,84 @@
+Index: AplicativoA/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- AplicativoA/pom.xml	(date 1580077886902)
++++ AplicativoA/pom.xml	(date 1580077886902)
+@@ -45,10 +45,20 @@
+                             <mainClass>mavenHerancas.utils.VisualizaVariaveis</mainClass>
+ 
+                             <arguments>
+-                                <argument>
+-
+-                                </argument>
+                                 <argument>${project.name}</argument>
++                            </arguments>
++                        </configuration>
++                    </execution>
++                    <execution>
++                        <phase>initialize</phase>
++                        <goals>
++                            <goal>java</goal>
++                        </goals>
++                        <configuration>
++                            <includePluginDependencies>true</includePluginDependencies>
++                            <mainClass>mavenHerancas.utils.MavenProjectInicializacao</mainClass>
++                            <arguments>
++                                <argument>root.projeto;${basedir}</argument>
+                             </arguments>
+                         </configuration>
+                     </execution>
+@@ -61,49 +71,9 @@
+                     </dependency>
+                 </dependencies>
+             </plugin>
++
+         </plugins>
+     </build>
+-    <profiles>
+-        <profile>
+-            <id>setup</id>
+-            <build>
+-                <plugins>
+-                    <plugin>
+-                        <groupId>org.codehaus.gmaven</groupId>
+-                        <artifactId>groovy-maven-plugin</artifactId>
+-                        <version>2.1.1</version>
+-                        <inherited>false</inherited>
+-                        <executions>
+-                            <execution>
+-                                <phase>initialize</phase>
+-                                <goals>
+-                                    <goal>execute</goal>
+-                                </goals>
+-                                <configuration>
+-                                    <source>
+-                                        ant.copy(file: 'settings.xml.template',
+-                                        tofile: 'settings.xml',
+-                                        filtering: true) {
+-                                        filterset() {
+-                                        filter(token: 'PROJECT_HOME',
+-                                        value: new File('.').getCanonicalPath())
+-                                        }
+-                                        }
+-                                        log.info('')
+-                                        log.info('Inicializado')
+-                                        log.info('')
+-                                        System.exit(0)
+-                                    </source>
+-                                </configuration>
+-                            </execution>
+-                        </executions>
+-                    </plugin>
+-                </plugins>
+-            </build>
+-            <activation> <!-- Only create profiles.xml if there's no profiles.xml yet -->
+-                <file><missing>profiles.xml</missing></file>
+-            </activation>
+-        </profile>
+-    </profiles>
++
+ 
+ </project>
+\ No newline at end of file
